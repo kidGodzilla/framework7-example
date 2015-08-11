@@ -81,9 +81,15 @@ function register () {
             switch (error.code) {
                 case "EMAIL_TAKEN":
                     console.log("The new user account cannot be created because the email is already in use.");
+                    myApp.addNotification({
+                        message: 'Email already in use.'
+                    });
                     break;
                 case "INVALID_EMAIL":
                     console.log("The specified email is not a valid email.");
+                    myApp.addNotification({
+                        message: 'Invalid Email.'
+                    });
                     break;
                 default:
                     console.log("Error creating user:", error);
