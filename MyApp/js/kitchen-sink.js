@@ -58,7 +58,48 @@ $$('.login-screen').find('.button').on('click', function () {
     });
 });
 
-$('.register-button').click(function () {
-    myApp.closeModal('.login-screen');
-    myApp.router.load('register.html');
+$(document).ready(function () {
+
+    // Click this button to bring up the registration form
+    $('.register-button').click(function () {
+        myApp.closeModal('.login-screen'); // Close the login modal
+        $('.hidden-register-button').click();
+    });
+
 });
+
+function register () {
+    var email = $$('.registration-form').find('input[type="email"]').val();
+    var password = $$('.registration-form').find('input[type="password"]').val();
+    console.log(email, password);
+
+    firebaseRef.createUser({
+        email: email,
+        password: password
+    }, function(error, userData) {
+        if (error) {
+            switch (error.code) {
+                case "EMAIL_TAKEN":
+                    console.log("The new user account cannot be created because the email is already in use.");
+                    break;
+                case "INVALID_EMAIL":
+                    console.log("The specified email is not a valid email.");
+                    break;
+                default:
+                    console.log("Error creating user:", error);
+            }
+        } else {
+            console.log("Successfully created user account with uid:", userData.uid);
+            myApp.addNotification({
+                message: 'Account Successfully Created.',
+                button: {
+                    text: 'Login',
+                    color: 'yellow'
+                },
+                onClose: function () {
+                    myApp.loginScreen(); // Display login screen
+                }
+            });
+        }
+    });
+}
