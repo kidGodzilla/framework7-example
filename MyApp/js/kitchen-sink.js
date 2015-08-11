@@ -54,6 +54,7 @@ $$('.login-screen').find('.button').on('click', function () {
             var userID = authData.uid;
             console.log("Authenticated user with uid:", authData.uid);
             myApp.closeModal('.login-screen');
+            window.location.reload();
         }
     });
 });
