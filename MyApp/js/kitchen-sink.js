@@ -27,22 +27,26 @@ $$(document).on('ajaxComplete', function () {
 // Connect to firebase
 var firebaseRef = new Firebase("https://wpages.firebaseio.com");
 
+// Get an existing session for this user, if it exists
 var authData = firebaseRef.getAuth();
 
+// If the user has previously logged in
 if (authData) {
      console.log("Authenticated user with uid:", authData.uid);
 } else {
     // if not logged in
-    myApp.loginScreen()
+    myApp.loginScreen(); // Immediately displays the login screen
 }
 
-// Login screen
+// When the user clicks on the Login button (on the login screen)
 $$('.login-screen').find('.button').on('click', function () {
-    var username = $$('.login-screen').find('input[name="username"]').val();
+    // get username & password from the form
+    var email = $$('.login-screen').find('input[name="email"]').val();
     var password = $$('.login-screen').find('input[name="password"]').val();
 
+    // Authenticate with Firebase
     firebaseRef.authWithPassword({
-        "email": username, "password": password
+        "email": email, "password": password
     }, function (error, authData) {
         if (error) {
             console.log(error);
