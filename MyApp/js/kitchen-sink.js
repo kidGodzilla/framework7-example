@@ -56,6 +56,9 @@ $$('.login-screen').find('.button').on('click', function () {
             myApp.closeModal('.login-screen');
         }
     });
+});
 
-
+$('.register-button').click(function () {
+    myApp.closeModal('.login-screen');
+    myApp.router.load('register.html');
 });
